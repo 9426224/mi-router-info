@@ -1,0 +1,16 @@
+{
+  "name": "小米历代路由器参数汇总",
+  "scripts": {
+    "check": "prettier . --check",
+    "fix": "prettier . --write"
+  },
+  "license": "MIT License",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/9426224/mi-router-info.git"
+  },
+  "homepage": "https://github.com/9426224/mi-router-info",
+  "devDependencies": {
+    "prettier": "^3.4.2"
+  }
+}

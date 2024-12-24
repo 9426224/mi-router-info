@@ -28,7 +28,7 @@ jobs:
         with:
           args: >-
             --standalone
-            --from markdown-github
+            --from markdown_github
             --to html5
             --css=styling.css
             --output=output/output.html

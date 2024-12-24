@@ -21,9 +21,18 @@ jobs:
       - name: Markdown style check (prettier)
         run: |
           npm run check
-    # - name: Build docs
-    #   run: |
-    #     mkdocs -v build
+      - name: Build docs
+        uses: docker://pandoc/core:3.5
+        with:
+          args: >-
+            --output=output/output.html
+            README.md
+
+      - name: Upload to artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: output
+          path: output
 
     # - name: Deploy to GitHub Pages
     #   if: github.ref == 'refs/heads/main'

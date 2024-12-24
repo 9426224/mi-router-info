@@ -36,7 +36,7 @@ jobs:
             --embed-resources
             --metadata pagetitle="小米历代路由器参数汇总"
             --output=output/output.html
-            README.md
+            mi-router-info.md
 
       # - name: Build pdf docs
       #   uses: docker://pandoc/extra:3.5

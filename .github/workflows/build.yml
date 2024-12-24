@@ -27,7 +27,12 @@ jobs:
         uses: docker://pandoc/core:3.5
         with:
           args: >-
+            --standalone
+            --from markdown-github
+            --to html5
+            --css=styling.css
             --output=output/output.html
+            --output=output/output.pdf
             README.md
 
       - name: Upload to artifact

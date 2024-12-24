@@ -1,0 +1,54 @@
+name: build
+
+on:
+  push:
+    branches:
+      - "*"
+  pull_request:
+    branches:
+      - "*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: npm install
+      - name: Markdown style check (prettier)
+        continue-on-error: true
+        run: |
+          npm run check
+      - run: |
+          mkdir output
+
+      - name: Build html docs
+        uses: docker://pandoc/core:3.5
+        with:
+          args: >-
+            --standalone
+            --from gfm
+            --to html5
+            --css=style.css
+            --embed-resources
+            --metadata pagetitle="小米历代路由器参数汇总"
+            --output=output/output.html
+            mi-router-info.md
+
+      # - name: Build pdf docs
+      #   uses: docker://pandoc/extra:3.5
+      #   with:
+      #     args: >-
+      #       --metadata title="小米历代路由器参数汇总"
+      #       --output=output/output.pdf
+      #       --pdf-engine=xelatex
+      #       output/output.html
+
+      - name: Upload to artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: output
+          path: output

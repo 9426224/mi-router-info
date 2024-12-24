@@ -21,6 +21,8 @@ jobs:
       - name: Markdown style check (prettier)
         run: |
           npm run check
+      - run: |
+          mkdir output
       - name: Build docs
         uses: docker://pandoc/core:3.5
         with:

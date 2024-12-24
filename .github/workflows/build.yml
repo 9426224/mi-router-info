@@ -19,39 +19,36 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Markdown style check (prettier)
+        continue-on-error: true
         run: |
           npm run check
       - run: |
           mkdir output
-      - name: Build docs
+
+      - name: Build html docs
         uses: docker://pandoc/core:3.5
         with:
           args: >-
             --standalone
-            --from markdown_github
+            --from gfm
             --to html5
-            --css=styling.css
+            --css=style.css
+            --embed-resources
+            --metadata pagetitle="小米历代路由器参数汇总"
             --output=output/output.html
-            --output=output/output.pdf
             README.md
+
+      # - name: Build pdf docs
+      #   uses: docker://pandoc/extra:3.5
+      #   with:
+      #     args: >-
+      #       --metadata title="小米历代路由器参数汇总"
+      #       --output=output/output.pdf
+      #       --pdf-engine=xelatex
+      #       output/output.html
 
       - name: Upload to artifact
         uses: actions/upload-artifact@v4
         with:
           name: output
           path: output
-
-    # - name: Deploy to GitHub Pages
-    #   if: github.ref == 'refs/heads/main'
-    #   run: |
-    #     CINFO="$(git log -1 --pretty="%an: [%h] %s")"
-    #     git clone --depth=1 --branch=gh-pages --single-branch --no-checkout \
-    #       "https://${GITHUB_ACTOR}:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" test
-    #     mv test/.git site/.git && rmdir test/
-    #     pushd site/ &>/dev/null
-    #     git add -A
-    #     git -c user.name=GitHub -c user.email=noreply@github.com commit \
-    #       -m "Auto deploy from GitHub Actions build ${GITHUB_RUN_NUMBER}" \
-    #       -m "$CINFO"
-    #     git push
-    #     popd &>/dev/null

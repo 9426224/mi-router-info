@@ -1,3 +1,14 @@
+<link rel="stylesheet" href="style.css">
+<style>
+.markdown-body table {
+  white-space: nowrap;
+  overflow: unset;
+}
+
+</style>
+<article class="markdown-body">
+<!-- Write you contents after this line -->
+
 # 小米历代路由器参数汇总
 
 > 表格图片版请前往此链接获取 https://zhuanlan.zhihu.com/p/13178688078
@@ -50,3 +61,5 @@
 | 小米BE5000            | RD18                     | 2024.5.1   | AN7563PT         | 2C 1G A53         | Np offload | 512M            | 晶豪M15T4G16256A                  | 128M | 晶豪F50L1G41LB             | MT7991AV+MT7976CN  | 集成                        | 2x2 688M 40Mhz 4K-QAM  | MT7991AV+MT7976CN  | 集成                  | 3x3 4323M 160Mhz 4K-QAM                                                 | 5\*外置  | -                | 2.5G\*1+1G\*3 | -           | EN8811HN             |
 | 小米AX3000E           | RN07                     | 2024.8.21  | IPQ5018          | 2C 1G A53         |   1C 1G    | 256M DDR3L      | 华邦W632GU6QB-11                  | 64M  | 江波龙F35UQA512M           | 集成               | 集成                        | 2x2 574M               | QCN6102            | 2\*KCT8546SE          | 2x2 2402M 160Mhz                                                        | 4\*外置  | -                | 1G\*4         | -           | YT9215S              |
 | 小米BE3600Pro         | RN01/RN04                | 2024.10.30 | IPQ5312          | 4C 1.1G A53       |  1C 1.1G   | 512M            | 晶豪M15T4G16256A                  | 128M | 华邦W25N04KWZEIR           | 集成               | 2\*KCT8245SD                | 2x2 688M 40Mhz         | QCN6402            | 2\*KCT8576HE          | 2x2 2882M 160Mhz                                                        | 4\*内置  | TLSR8236F512ET32 | 2.5G\*1+1G\*3 | -           | QCA8081+YT9215S      |
+
+</article> <!--Do not remove this line-->

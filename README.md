@@ -73,7 +73,7 @@
 2. 按表头补一行，未知字段填 `-`。
 3. 提交后 CI 会校验列数、必填项和重复型号，重新生成 `assets/specs-*.png` 与 `output/index.html`。
 
-字段约定和常见问题见 [docs/contributing.md](docs/contributing.md)。
+字段约定和常见问题见 [docs/contributing.md](docs/contributing.md)；还没查到的字段和未收录批次见 [docs/gaps.md](docs/gaps.md)。
 
 ## 本地构建
 

@@ -60,8 +60,9 @@ open output/index.html
 
 `npm run build` 会重新生成 `assets/specs-*.png` 和 `output/index.html`，并更新 README 中的统计与图片区块。
 
-- 改了 `data/routers.csv` 后一定重新执行，否则仓库里的图片会过期。
+- 改了 `data/routers.csv` 后建议重新执行，确认图片排版正常。
 - 构建是幂等的；数据没变时重复构建不会产生差异。
+- 图片最终由 CI 在 Ubuntu + Noto Sans CJK 下渲染，macOS 本地用 PingFang，字形会有细微差异。提交时带上数据即可，图片和 README 统计可以交给 CI 回写。
 
 ## 图片分组
 

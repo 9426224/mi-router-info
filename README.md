@@ -78,7 +78,7 @@ npx playwright install chromium
 npm run build
 ```
 
-构建会生成 `assets/specs-*.png` 和 `output/index.html`（浏览器直接打开预览），并更新本页的统计与图片。
+构建会生成 `assets/specs-*.png` 和 `output/index.html`（浏览器直接打开预览），并更新本页的统计与图片。CI 会用统一字体重新渲染一遍，因此本地构建主要用于预览排版。
 
 - `npm run check`：检查格式
 - `npm run fix`：自动修正格式

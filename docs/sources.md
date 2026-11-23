@@ -33,7 +33,8 @@
 - IPQ5312/5322 的 Ubi32 NPU：[BitsWRT NHX53X2 模块规格](https://bitswrt.com/zh-cn/product/wifi7-som/nhx53x2/nhx53x2_v02_220/)、[ipTIME BE3600QCA 资料](https://namu.wiki/w/ipTIME%20BE3600QCA)。
 - AN7563 的 NPU 仅做 RX offload：[OpenWrt 论坛](https://forum.openwrt.org/t/official-support-for-tp-link-xx530v/255062/18)。
 - MT7628 没有硬件 NAT：[恩山讨论](https://www.right.com.cn/forum/thread-259276-3-1.html)。
-- R3D 的 FEM 与 NSS 规格：[什么值得买配置帖](https://post.smzdm.com/p/a25gkmzd/)。
+- R3D 的 FEM、NSS 与 QCA9980/QCA9984/QCA8337 组合：[什么值得买配置帖](https://post.smzdm.com/p/a25gkmzd/)、[OpenWrt R3D 支持](https://github.com/openwrt/openwrt/commit/b11a1d130d428ea4210396cfdf1009fc488bf327)。
+- AX3600 的 QCA8075、QCN5024/QCN5054/QCA9889：[恩山拆机](https://www.right.com.cn/forum/thread-2748211-1-1.html)、[AX6000 对比](https://www.smyz.net/pc/11249.html)。
 
 ## 说明
 

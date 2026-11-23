@@ -40,7 +40,7 @@ USB/SATA, 交换机芯片
 
 `npm run build`（`scripts/build.mjs`）：
 
-1. 解析并校验 CSV（列数、必填字段、日期格式、重复型号）。
+1. 解析并校验 CSV（列数、必填字段、上市时间格式 `YYYY.M.D` / `YYYY.M`、重复型号）。
 2. 计算统计（型号数量、时间跨度）。
 3. 输出 `output/index.html`（模板 `web/index.html` + `web/page.css` + `web/app.js`，数据以内联 JSON 注入）。
 4. 为五个列分组分别生成 `output/image-*.html`（样式 `web/image.css`）。

@@ -1,6 +1,6 @@
 {
   "name": "mi-router-info",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "description": "小米历代路由器参数汇总：改一行 CSV，自动生成表格图片与网页",
   "type": "module",

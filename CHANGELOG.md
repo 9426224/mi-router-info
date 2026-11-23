@@ -1,5 +1,16 @@
 # 更新记录
 
+## 0.4.0 - 2026-11-23
+
+全表复核（SOC、加速器、网口、无线）并新增一图流。
+
+- NPU/加速列按 SoC 重写：IPQ807x/6000/5000/5018 的 NPU 核心与频率、IPQ8064 的 NSS 2×733MHz、IPQ5312/5322 的 Ubi32 12T、IPQ5424 的 Hexagon 40TOPS；MT798x 标 PPE，博通标 CTF
+- 修正误标：MT7628 全系没有硬件 NAT、QCA9563 没有 HWNAT、MT7621 漏标的 HWNAT、BE5000 的 AN7563 有 RX offload
+- 修正 AX9000 的 5G FEM 数量（8× QPF4588）、小米万兆网口（2.5G×4 + 10G×1 + SFP+）、R3D 的 5G FEM 型号（SKY2185712）、IPQ4019 架构（A7）
+- 列名更新为「NPU/加速」「交换/PHY」，说明 NPU/NSS/HWNAT/CTF 的口径
+- 新增一图流 `assets/specs-all.png`（全部 20 列，1.5× 渲染），README 置顶展示
+- 对照 acwifi 配置表复核了 26 个型号的 CPU、内存、闪存与 FEM，未发现其他差异
+
 ## 0.3.1 - 2026-11-23
 
 射频与天线字段改写为统一、可核对的写法。

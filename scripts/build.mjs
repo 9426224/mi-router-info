@@ -23,7 +23,7 @@ const COLUMNS = [
   "上市时间",
   "SOC",
   "频率/架构",
-  "ACC/NPU",
+  "NPU/加速",
   "内存",
   "内存型号",
   "存储",
@@ -38,7 +38,7 @@ const COLUMNS = [
   "其他功能芯片",
   "背板网口",
   "USB/SATA",
-  "交换机芯片",
+  "交换/PHY",
 ];
 
 /** 图片按列分成三张，避免 21 列挤在一张图里不可读。 */
@@ -46,7 +46,7 @@ const GROUPS = [
   {
     id: "overview",
     title: "概览与性能",
-    columns: ["路由器", "上市时间", "SOC", "频率/架构", "ACC/NPU"],
+    columns: ["路由器", "上市时间", "SOC", "频率/架构", "NPU/加速"],
   },
   {
     id: "memory",
@@ -72,13 +72,19 @@ const GROUPS = [
       "其他功能芯片",
       "背板网口",
       "USB/SATA",
-      "交换机芯片",
+      "交换/PHY",
     ],
   },
 ];
 
 /** 图片里把「名称 + 型号」合成一列，避免每张图重复两列长文本。 */
 const KEY_COLUMN = "路由器";
+
+/** 一图流：单张图片包含全部参数列。 */
+const ALL_COLUMNS = [
+  KEY_COLUMN,
+  ...COLUMNS.filter((column) => column !== "路由器名称" && column !== "型号"),
+];
 
 /** 长文本列：图片里限制宽度换行，网页里允许折行。 */
 const WRAP_COLUMNS = [
@@ -89,7 +95,7 @@ const WRAP_COLUMNS = [
   "5G FEM",
   "5G 无线",
   "其他功能芯片",
-  "交换机芯片",
+  "交换/PHY",
 ];
 
 const COLUMN_WIDTH = {
@@ -97,7 +103,7 @@ const COLUMN_WIDTH = {
   上市时间: 92,
   SOC: 122,
   "频率/架构": 124,
-  "ACC/NPU": 92,
+  "NPU/加速": 118,
   内存: 104,
   内存型号: 160,
   存储: 62,
@@ -112,17 +118,11 @@ const COLUMN_WIDTH = {
   其他功能芯片: 116,
   背板网口: 108,
   "USB/SATA": 96,
-  交换机芯片: 136,
+  "交换/PHY": 136,
 };
 
 /** 不允许换行的短字段，换行会让日期、容量等难以扫读。 */
-const NOWRAP_COLUMNS = new Set([
-  "上市时间",
-  "ACC/NPU",
-  "内存",
-  "存储",
-  "USB/SATA",
-]);
+const NOWRAP_COLUMNS = new Set(["上市时间", "存储", "USB/SATA"]);
 
 const STATS_START = "<!-- STATS:START -->";
 const STATS_END = "<!-- STATS:END -->";
@@ -315,9 +315,8 @@ function renderTable(columns, records) {
   return `<table style="width:${width}px"><colgroup>${cols}</colgroup><thead><tr>${head}</tr></thead><tbody>\n${body}\n</tbody></table>`;
 }
 
-function renderImagePage({ group, index, total, records, stats }) {
+function renderImagePage({ group, part, records, stats }) {
   const title = "小米历代路由器参数汇总";
-  const part = `${group.title} ${index + 1}/${total}`;
   return `<!doctype html>
 <html lang="zh-CN">
   <head>
@@ -351,8 +350,7 @@ async function screenshotImages(records, stats) {
     for (const [index, group] of GROUPS.entries()) {
       const html = renderImagePage({
         group,
-        index,
-        total: GROUPS.length,
+        part: `${group.title} ${index + 1}/${GROUPS.length}`,
         records,
         stats,
       });
@@ -366,6 +364,33 @@ async function screenshotImages(records, stats) {
       await sheet.screenshot({ path: target });
       outputs.push({ group, target });
     }
+
+    const allGroup = {
+      id: "all",
+      title: "全部参数（一图流）",
+      columns: ALL_COLUMNS,
+    };
+    const allHtml = renderImagePage({
+      group: allGroup,
+      part: "全部参数",
+      records,
+      stats,
+    });
+    const allFile = path.join(OUT_DIR, "image-all.html");
+    await writeFile(allFile, allHtml, "utf8");
+    const allPage = await browser.newPage({
+      deviceScaleFactor: 1.5,
+      viewport: { width: 3200, height: 1800 },
+    });
+    await allPage.goto(pathToFileURL(allFile).href, { waitUntil: "load" });
+    await allPage.evaluate(() => document.fonts.ready);
+    const allSheet = allPage.locator(".sheet");
+    await allSheet.waitFor();
+    const allTarget = path.join(ASSET_DIR, "specs-all.png");
+    await allSheet.screenshot({ path: allTarget });
+    await allPage.close();
+    outputs.unshift({ group: allGroup, target: allTarget });
+
     return outputs;
   } finally {
     await browser.close();
@@ -390,10 +415,13 @@ async function updateReadme(records, stats, images) {
 
   const statsText = `**${stats.count} 款型号** · 上市时间 ${stats.from}–${stats.to} · ${stats.columns} 项参数 · 数据源 [\`data/routers.csv\`](data/routers.csv)`;
   const imageText = images
-    .map(
-      ({ group }) =>
-        `### ${group.title}\n\n![小米历代路由器 ${group.title} 参数表](assets/specs-${group.id}.png)`,
-    )
+    .map(({ group }) => {
+      const alt =
+        group.id === "all"
+          ? "小米历代路由器全部参数（一图流）"
+          : `小米历代路由器 ${group.title} 参数表`;
+      return `### ${group.title}\n\n![${alt}](assets/specs-${group.id}.png)`;
+    })
     .join("\n\n");
 
   readme = replaceReadmeBlock(

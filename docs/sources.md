@@ -26,6 +26,15 @@
 | 小米万兆 AX10000               | [acwifi 拆机](https://www.acwifi.net/23365.html)                                                                                                                                                                                               |
 | 小米路由器Mesh                 | [小米官方规格](https://www.mi.com/mesh/specs)、[wikidevi](<https://wikidevi.wi-cat.com/index.php?title=Xiaomi_Mesh_Router_AC1300_(D01)>)                                                                                                       |
 
+## SOC 与加速器
+
+- AX 系列的 NPU 核心与频率：[acwifi 芯片汇总](https://damodev.csdn.net/67fcc9a1a5baf817cf48ddbc.html)（AX1800 单核 1.5GHz、AX3600 双核 1.7GHz、AX6000 单核 1.0GHz、AX9000 双核 1.7GHz）。
+- IPQ8064 的双核 NSS @730MHz：[PCMag 报道](https://uk.pcmag.com/components/8311/qualcomm-intros-new-line-of-processors-for-the-connected-home)、[OpenWrt 讨论](https://forum.openwrt.org/t/ipq806x-nss-drivers/12613/449)。
+- IPQ5312/5322 的 Ubi32 NPU：[BitsWRT NHX53X2 模块规格](https://bitswrt.com/zh-cn/product/wifi7-som/nhx53x2/nhx53x2_v02_220/)、[ipTIME BE3600QCA 资料](https://namu.wiki/w/ipTIME%20BE3600QCA)。
+- AN7563 的 NPU 仅做 RX offload：[OpenWrt 论坛](https://forum.openwrt.org/t/official-support-for-tp-link-xx530v/255062/18)。
+- MT7628 没有硬件 NAT：[恩山讨论](https://www.right.com.cn/forum/thread-259276-3-1.html)。
+- R3D 的 FEM 与 NSS 规格：[什么值得买配置帖](https://post.smzdm.com/p/a25gkmzd/)。
+
 ## 说明
 
 - 老型号（2014–2022）主要沿用 acwifi 配置表与对应拆机文，个别颗粒型号以丝印为准；表里保留 `-` 而不是猜测。

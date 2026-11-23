@@ -28,12 +28,12 @@ const COLUMNS = [
   "内存型号",
   "存储",
   "存储型号",
-  "2.4G芯片",
+  "2.4G 芯片",
   "2.4G FEM",
-  "2.4G规格",
-  "5G芯片",
+  "2.4G 无线",
+  "5G 芯片",
   "5G FEM",
-  "5G规格",
+  "5G 无线",
   "天线",
   "其他功能芯片",
   "背板网口",
@@ -56,12 +56,12 @@ const GROUPS = [
   {
     id: "wifi24",
     title: "2.4G 无线",
-    columns: ["路由器", "2.4G芯片", "2.4G FEM", "2.4G规格"],
+    columns: ["路由器", "2.4G 芯片", "2.4G FEM", "2.4G 无线"],
   },
   {
     id: "wifi5",
     title: "5G 无线",
-    columns: ["路由器", "5G芯片", "5G FEM", "5G规格"],
+    columns: ["路由器", "5G 芯片", "5G FEM", "5G 无线"],
   },
   {
     id: "io",
@@ -87,13 +87,13 @@ const WRAP_COLUMNS = [
   "存储型号",
   "2.4G FEM",
   "5G FEM",
-  "5G规格",
+  "5G 无线",
   "其他功能芯片",
   "交换机芯片",
 ];
 
 const COLUMN_WIDTH = {
-  路由器: 242,
+  路由器: 258,
   上市时间: 92,
   SOC: 122,
   "频率/架构": 124,
@@ -102,16 +102,16 @@ const COLUMN_WIDTH = {
   内存型号: 160,
   存储: 62,
   存储型号: 180,
-  "2.4G芯片": 128,
+  "2.4G 芯片": 128,
   "2.4G FEM": 138,
-  "2.4G规格": 152,
-  "5G芯片": 128,
+  "2.4G 无线": 270,
+  "5G 芯片": 128,
   "5G FEM": 140,
-  "5G规格": 270,
-  天线: 72,
+  "5G 无线": 340,
+  天线: 150,
   其他功能芯片: 116,
   背板网口: 108,
-  "USB/SATA": 86,
+  "USB/SATA": 96,
   交换机芯片: 136,
 };
 
@@ -121,8 +121,6 @@ const NOWRAP_COLUMNS = new Set([
   "ACC/NPU",
   "内存",
   "存储",
-  "天线",
-  "背板网口",
   "USB/SATA",
 ]);
 
@@ -138,8 +136,8 @@ const esc = (value) =>
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
 
-/** 图片排版用：在 + / - 之后插入零宽空格，长型号优先在这些位置换行，而不是被硬拆两半。 */
-const softBreak = (value) => esc(value).replace(/([+/-])/g, "$1\u200b");
+/** 图片排版用：在 + / `/` 之后插入零宽空格，长型号优先在这些位置换行，而不是被硬拆两半。 */
+const softBreak = (value) => esc(value).replace(/([+/])/g, "$1\u200b");
 
 function fail(message) {
   console.error(`✖ ${message}`);
@@ -255,7 +253,9 @@ function renderIndex(template, header, records, stats) {
     groups: GROUPS.map((group) => ({
       id: group.id,
       title: group.title,
-      columns: group.columns,
+      columns: group.columns.flatMap((column) =>
+        column === KEY_COLUMN ? ["路由器名称", "型号"] : [column],
+      ),
     })),
     wrapColumns: WRAP_COLUMNS,
   };
@@ -302,13 +302,17 @@ function renderTable(columns, records) {
             const className = classes.length
               ? ` class="${classes.join(" ")}"`
               : "";
-            return `<td${className}>${softBreak(value)}</td>`;
+            return `<td${className}>${softBreak(value).replace(/；/g, "<br>")}</td>`;
           })
           .join("")}</tr>`,
     )
     .join("\n");
 
-  return `<table><colgroup>${cols}</colgroup><thead><tr>${head}</tr></thead><tbody>\n${body}\n</tbody></table>`;
+  const width = columns.reduce(
+    (sum, column) => sum + (COLUMN_WIDTH[column] ?? 120),
+    0,
+  );
+  return `<table style="width:${width}px"><colgroup>${cols}</colgroup><thead><tr>${head}</tr></thead><tbody>\n${body}\n</tbody></table>`;
 }
 
 function renderImagePage({ group, index, total, records, stats }) {

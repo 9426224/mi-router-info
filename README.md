@@ -10,7 +10,7 @@
 
 <!-- STATS:START -->
 
-**51 款型号** · 上市时间 2014–2026 · 21 项参数 · 数据源 [`data/routers.csv`](data/routers.csv)
+**54 款型号** · 上市时间 2014–2026 · 22 项参数 · 数据源 [`data/routers.csv`](data/routers.csv)
 <!-- STATS:END -->
 
 ## 图片版

@@ -1,16 +1,22 @@
 {
-  "name": "小米历代路由器参数汇总",
+  "name": "mi-router-info",
+  "version": "0.2.0",
+  "private": true,
+  "description": "小米历代路由器参数汇总：改一行 CSV，自动生成表格图片与网页",
+  "type": "module",
   "scripts": {
+    "build": "node scripts/build.mjs",
     "check": "prettier . --check",
     "fix": "prettier . --write"
   },
-  "license": "MIT License",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/9426224/mi-router-info.git"
   },
-  "homepage": "https://github.com/9426224/mi-router-info",
+  "homepage": "https://9426224.github.io/mi-router-info/",
   "devDependencies": {
-    "prettier": "^3.4.2"
+    "playwright": "1.61.1",
+    "prettier": "^3.10.1"
   }
 }

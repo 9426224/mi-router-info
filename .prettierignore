@@ -2,3 +2,7 @@
 .github
 .DS_Store
 package*.json
+data
+assets
+output
+tmp

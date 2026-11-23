@@ -2,53 +2,72 @@ name: build
 
 on:
   push:
-    branches:
-      - "*"
+    branches: ["**"]
   pull_request:
-    branches:
-      - "*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   build:
+    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
+
       - name: Install dependencies
-        run: npm install
-      - name: Markdown style check (prettier)
-        continue-on-error: true
+        run: npm ci
+
+      - name: Install Chromium and CJK fonts
         run: |
-          npm run check
-      - run: |
-          mkdir output
+          npx playwright install --with-deps chromium
+          sudo apt-get update
+          sudo apt-get install -y fonts-noto-cjk
 
-      - name: Build html docs
-        uses: docker://pandoc/core:3.5
+      - name: Check formatting
+        run: npm run check
+
+      - name: Build images and pages
+        run: npm run build
+
+      - name: Commit generated files
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add README.md assets
+          if git diff --cached --quiet; then
+            echo "生成物没有变化，跳过提交"
+          else
+            git commit -m "chore: 自动更新表格图片 [skip ci]"
+            git push
+          fi
+
+      - name: Upload Pages artifact
+        if: github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@v3
         with:
-          args: >-
-            --standalone
-            --from gfm
-            --to html5
-            --css=style.css
-            --embed-resources
-            --metadata pagetitle="小米历代路由器参数汇总"
-            --output=output/output.html
-            mi-router-info.md
-
-      # - name: Build pdf docs
-      #   uses: docker://pandoc/extra:3.5
-      #   with:
-      #     args: >-
-      #       --metadata title="小米历代路由器参数汇总"
-      #       --output=output/output.pdf
-      #       --pdf-engine=xelatex
-      #       output/output.html
-
-      - name: Upload to artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: output
           path: output
+
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

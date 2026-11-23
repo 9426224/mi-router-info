@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>小米历代路由器参数汇总</title>
+    <meta
+      name="description"
+      content="小米 / 红米历代路由器硬件参数汇总，支持搜索、列分组与排序。"
+    />
+    <link rel="stylesheet" href="page.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div class="wrap">
+        <p class="eyebrow">Xiaomi Router Specs</p>
+        <h1>小米历代路由器参数汇总</h1>
+        <p class="lede">
+          从 2014 年的小米路由器 1 到最新 Wi‑Fi 7 型号，逐台整理
+          SOC、内存、存储、无线方案与接口规格。
+        </p>
+        <div class="stats">{{STATS}}</div>
+        <p class="hero__links">
+          <a href="https://github.com/9426224/mi-router-info">GitHub 仓库</a>
+          <span aria-hidden="true">·</span>
+          <a
+            href="https://github.com/9426224/mi-router-info/blob/main/data/routers.csv"
+            >数据表 CSV</a
+          >
+          <span aria-hidden="true">·</span>
+          <a href="https://github.com/9426224/mi-router-info/issues"
+            >纠错 / 补充</a
+          >
+        </p>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <div class="toolbar">
+        <label class="search">
+          <svg
+            class="search__icon"
+            viewBox="0 0 16 16"
+            fill="none"
+            aria-hidden="true"
+          >
+            <circle
+              cx="7"
+              cy="7"
+              r="4.5"
+              stroke="currentColor"
+              stroke-width="1.5"
+            />
+            <path
+              d="M10.5 10.5 14 14"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+            />
+          </svg>
+          <input
+            id="q"
+            type="search"
+            placeholder="搜索型号、芯片、网口…"
+            autocomplete="off"
+            aria-label="搜索"
+          />
+        </label>
+        <div class="groups" id="groups" role="group" aria-label="列分组"></div>
+        <span class="count" id="count" aria-live="polite"></span>
+      </div>
+
+      <div class="tablewrap" id="tablewrap"></div>
+
+      <p class="hint">
+        点击表头可排序，表格较宽时可左右滚动；数据来自
+        <a
+          href="https://github.com/9426224/mi-router-info/blob/main/data/routers.csv"
+          >data/routers.csv</a
+        >，提交后本页与 README 图片会自动重新生成。
+      </p>
+    </main>
+
+    <footer class="wrap foot">
+      <p>
+        由
+        <a href="https://github.com/9426224/mi-router-info"
+          >9426224/mi-router-info</a
+        >
+        自动构建。
+      </p>
+    </footer>
+
+    <script>
+      window.__ROUTER_DATA__ = {{DATA_JSON}};
+    </script>
+    <script src="app.js"></script>
+  </body>
+</html>

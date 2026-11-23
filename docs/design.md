@@ -60,9 +60,16 @@ USB/SATA, 交换机芯片
 
 ## 验收标准
 
-- [ ] 只改 CSV 一行，运行 `npm run build` 后五张图片、网页、README 统计同步变化。
-- [ ] 表格列缺失、行字段数不符、型号重复时构建失败并给出明确行号。
-- [ ] 生成的图片中文正常、无截断、无横向溢出。
-- [ ] README 中五张图片可以在 GitHub 上直接显示。
-- [ ] push 到 `main` 后 Actions 成功，机器人提交只包含 `assets/` 与 `README.md`。
-- [ ] Pages 页面可访问且搜索/分组/排序可用。
+- [x] 只改 CSV 一行，运行 `npm run build` 后五张图片、网页、README 统计同步变化。
+- [x] 表格列缺失、行字段数不符、型号重复时构建失败并给出明确行号。
+- [x] 生成的图片中文正常、无截断、无横向溢出（macOS 用 PingFang，CI 用 Noto Sans CJK）。
+- [x] README 中五张图片可以在 GitHub 上直接显示。
+- [x] push 到 `main` 后 Actions 成功，机器人提交只包含 `assets/` 与 `README.md`。
+- [x] Pages 页面可访问且搜索/分组/排序可用。
+
+## 验证记录（2026-11-23）
+
+- 特性分支构建：[run 45135496054](https://github.com/9426224/mi-router-info/actions/runs/45135496054) 通过，未回写。
+- `main` 构建与部署：[run 45135730391](https://github.com/9426224/mi-router-info/actions/runs/45135730391) 通过，机器人提交 `62b6578`（`chore: 自动更新表格图片 [skip ci]`），未触发循环构建。
+- Pages：<https://9426224.github.io/mi-router-info/> 返回 200，搜索、列分组、排序均可用。
+- 本地 `npm run build` 连续运行两次产物哈希一致（幂等）。
